@@ -157,12 +157,12 @@ plt.long + plt.lat + plt.elev
 ```{r message=FALSE, warning=FALSE}
 # Create data frame for plotting
 df.pred.poly <- df.pred %>% 
-  select(Time, lon.m1.hat, lat.m1.hat) %>% 
+  dplyr::select(Time, lon.m1.hat, lat.m1.hat) %>% 
   rename(Longitude = lon.m1.hat, Latitude = lat.m1.hat) %>% 
   mutate(Model = "Polynomial")
 
 df.pred.cart <- df.pred %>% 
-  select(Time, lon.m2.hat, lat.m2.hat) %>% 
+  dplyr::select(Time, lon.m2.hat, lat.m2.hat) %>% 
   rename(Longitude = lon.m2.hat, Latitude = lat.m2.hat) %>% 
   mutate(Model = "GAM")
 
