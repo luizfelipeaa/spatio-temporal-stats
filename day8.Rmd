@@ -1,0 +1,26 @@
+
+# Day 8
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class, we reviewed the hierarchical Bayesian structure and also defined the parameter model (distributions and hyperparameters).
+
+Data model: $[ \underline{z} |\underline{y},p]=\text{binomial}(\underline{y},p)$ +
+Process model: $[y_t|\gamma, \lambda_t] = \text{Pois}(\lambda_t)$, $\lambda_t=\lambda_0e^{\gamma(t-t_0)}$ +
+Parameter model: $[\gamma]=\text{uni}(0,0.1)$, $[\lambda_0]=\text{duni}(2,50)$, $[p]=\text{unif}(0,1)$\
+
+Then, we discussed that models are never perfect, but we can specify them and make assumptions to be more fair in terms of representing "reality". We had a brief introduction and tutorial in R on how the composition samplers work (such as MCMC), how sample rejection works, and how this can make an algorithm more efficient. As we saw, by simulating the whooping crane data using a composition sampler, we can sometimes approximate the true data.
+
+More specifically, using a for loop function in R, we draw samples for $\gamma$ from a uniform distribution, and for $\lambda_0$ from a discrete uniform. Then we plug these two values into the mathematical equation for the process model, and plug in the calculated $\lambda$ to the process model, we draw samples from a Poisson distribution. Lastly, we obtain a sample for the $p$ parameter of the data model from a uniform distribution, and using draw samples from the process model we generate $y$ from a Binomial distribution with probability $p$.
+
+Then we plot a few simulations to compare how the composition sampler is variable, and also we visualize the mean of each random variable using the posterior distributions.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+It would be beneficial to receive a clearer explanation of how MCMC enhances the efficiency of composition sampling. Overall, the class was very clear, and the live tutorial greatly helped in clarifying the hierarchical Bayesian framework. 
+
+## Is there anything else you would like me to be aware of?
+
+The live examples are the best way for me to assimilate theory and its real-world application. This was the best class so far!!  
+
+

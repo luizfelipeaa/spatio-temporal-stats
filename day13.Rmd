@@ -1,0 +1,35 @@
+
+# Day 13
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In yesterday's class, we had the chance to discuss Activity 2 and the final project. It was interesting to see and hear the different approaches other students took to solve Activity 2, and the different data that were collected (konza, field, etc).
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I do not fully understand all the steps for the kriging process. Some packages help to work on the problem but still there are many arguments that can be adjusted.
+
+## Is there anything else you would like me to be aware of?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

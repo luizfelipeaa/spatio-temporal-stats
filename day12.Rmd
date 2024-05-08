@@ -1,0 +1,39 @@
+
+# Day 12
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In yesterday class, we had an overview of how to build linear models to account for correlated errors by adding a spatial random effect, denoted as $\eta$, to model the variability in rainfall across different locations ($y_i = \beta_0 + \eta_i$, where $\eta_i = (\eta_1, \eta_2, ... \eta_n) \sim MVN(0, \sigma^2C)$). This approach allows for the incorporation of spatial dependencies into our models, adding a spatial random effect to each of the measured depths. We then moved to the hierarchical modeling framework. We assumed the data model as $[z|y...] = N(y, \sigma^2_z)$, and the process model as $[y|\beta_0, \phi, \sigma^2] = MVN(\beta_0, \sigma^2C)$. Until this point, the expected value is a constant ($\beta_0$), meaning we are considering the same rainfall across all weather stations, which would be our simplest model.
+
+To better exemplify the theory and concepts, we proceeded with a live example in R. We started by conducting an exploratory analysis of the data and transforming the coordinate system to planar (UTM-13). Then, we built three different models: an intercept-only model ($y_i = \beta_0 + \epsilon_i$ with $\epsilon_i \sim N(0, \sigma^2)$), a second-order polynomial model (here, we incorporate the spatial component), and the hierarchical model that was previously outlined. We checked the predictions of all models in raster format. The first model-based estimate showed us that the maximum precipitation was about 3.99", the polynomial model suggested 5", and the most accurate one, which was the hierarchical model, resulted in 9.76" as the maximum precipitation value. The more assumptions and constraints considering our knowledge about precipitation improved our ability to make inferences and also to obtain a more realistic model.
+
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+The last class was one of the best for me. Everything was very clear! The only part I may struggle with is understanding the syntax of the gls() function in R. As pointed out in class, it may require more experience to learn how to build a model effectively.
+
+## Is there anything else you would like me to be aware of?
+
+The live examples really help us connect the theory with the real problem we are trying to solve.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

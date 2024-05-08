@@ -1,0 +1,21 @@
+
+# Day 11
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+We started today's class by reviewing the Gaussian process, which is essentially a PDF that generates random functions. Then, we moved to an introduction of the multivariate normal (MVN) distribution, particularly noting how it is characterized by a mean vector and a covariance matrix, which incorporates a correlation matrix to describe the dependencies among random variables ($\eta \sim MVN(0,\sigma^2 R)$). We then looked at different structures of correlation matrices, such as compound symmetry and the AR(1) models. These structures are essential for understanding the correlation among sequential data points (over time or space) and their implications for future spatio-temporal applications (such as krigging). The practical application of these concepts was exemplified through a bioluminescence example, where the need to account for spatial random effects in modeling was clearly demonstrated. We compared the two types of correlation matrices covered in class, and to better understand how the addition of one more constraint $\eta$ in a simple intercept-only linear model ($y_i \sim \beta_0 +\eta_i + \epsilon_i$) changes the way the residuals are dispersed across the predictor range. This comparison essentially involved assuming different types of correlation for each data point, using a Gaussian and linear correlation function. The similarities to machine-learning were also highlighted, where the "phi" parameter of the function would be named as "tuning" parameter. We concluded the class by obtaining a much more representative model for bioluminescence at different depths and comparing the levels of wiggliness according to different correlation functions.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+It was not very clear to me how to effectively implement different types of correlation matrices, particularly in the context of incorporating variables that could explain the spatial and temporal influences on our data. I believe that one more example will help to clarify this.
+
+## Is there anything else you would like me to be aware of?
+
+Even though it's sometimes not very worth it to go so deep into the specifics of functions or mathematical formulas, a brief explanation is always very helpful for us. For example, when you explained the $\phi$ parameter of the Gaussian function.
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+
+# Day 6
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class, we reviewed concepts of difference, differential, and partial differential equations. Initially, these concepts seemed more challenging, but with examples from the last class, I now feel more comfortable learning about them. We then briefly discussed agent-based models, which resemble the rules of video games or building evacuation plans, and tend to be used without data.
+
+Next, we started a motivating data example concerning whooping cranes. Data on the whooping cranes were collected in their Texan habitats, described as "giant parking lots" or "little bombing ranges." These habitats exhibit interesting behavioral patterns, such as siblings killing each other and older individuals migrating more efficiently. We recognized that the data could be seen as an aggregation of spatio-temporal data, reflective of the data generation process. The goal is to predict when the population will exceed 1000 individuals.
+
+We discussed hierarchical models, which can be empirical or Bayesian. The empirical model simplifies the process by removing the parameter layer and utilizing maximum-likelihood estimation. The Bayesian hierarchical model incorporates Bayes' theorem for estimation, which applies prior knowledge to statistical models and inference. In these models, a random variable $z$ is conditional on another variable $y$, representing the data we wish to have, such as the actual number of whooping cranes in the population. Hierarchical models acknowledge that all data is collected with some level of measurement error. The data model, in this context, is the actual data we have, conditional on the data we wish we had, along with some parameters. The process model is a statistical representation of the data we aim to collect, for example, the true number of whooping cranes. This is complemented by the parameter model, which is the prior model. Bayesian statistics allow us to "shut off" our brains once the models, distributions, and mathematical framework are defined; the computational tasks can then be managed by algorithms. This approach yields the posterior distribution, which reflects our updated beliefs about the parameters after considering the data. Bayes' rule is a technique used to determine the posterior distribution of the parameters, given the data. Lastly, the posterior predictive distribution provides a probabilistic forecast based on this updated information.
+
+## Write a  paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+Towards the end of the class, we didn't discuss much about the parameter model. I think we missed a thorough explanation, as we had for the data and process models. Also, regarding the giant fish example, the process of grouping species was not very clear to me. The rest of the class was pretty clear. We reviewed some concepts at the beginning of the class, the whooping crane dataset was clearly explained, as well as the hierarchical Bayesian model structure.
+
+## Is there anything else you would like me to be aware of?
+
+It was one of the best classes so far, and the way you described the whooping crane dataset was hilarious. I will never forget the comment that Texas is a giant parking lot haha.
+
+
+
+
+
+
+
+
+
+
+
+

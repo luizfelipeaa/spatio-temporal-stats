@@ -1,0 +1,21 @@
+# Day 22
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+We started the class by looking at coefficient estimates of aphids in grassland, focusing only on its effect size and uncertainty interpretation. Since our main concern is predictive performance and we aim to retain all available data, the AIC becomes a efficient metric for evaluating model predictive accuracy. Additionally, we discussed concurvity, which is similar to the concept of collinearity, with values above 0.6 indicating potential issues (similar to collinearity). We then conducted an exercise to remove the spatial effect from the first GAM model, observing that grassland appeared to be in competition with the spatial random effect. Upon removing the spatial random effect, the coefficient's effect size almost doubled and became more certain. Semivariograms of residuals revealed traces of covariates that could improve the models. Furthermore, through the assessment of predicted zeros, negative binomial models demonstrated superiority over Poisson and zero-inflated models.
+
+The next dataset comprised the proportion of infected (tested positive) aphids. Here, our objective moves from explaining aphid counts to determining the number of positive aphids given the number tested (assuming no false-positives - highly accurate test). We assume the data model $y = z$, and the process model $y_i \sim Bin(N_I,P_i)$, with a logit-link function $logit(P_i) = \beta_0+\beta_1\times X + \eta_s + \eta_t$. Our focus lies in inferring the probability of disease presence and understanding the influence of grasslands. However, we found an issue in the dataset known as complete separation, occurring when there are very few positives or negatives. Our models might be overly complex with too many parameters, and we lack sufficient information to retain spatial and time effects in the model.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+Last class was very clear to me, and I do not have any current struggle.
+
+## Is there anything else you would like me to be aware of?
+
+It would be nice to explore a Bayesian model version for this new dataset, even if we do not delve deeply into the theory.
+
+
+
+
+
+

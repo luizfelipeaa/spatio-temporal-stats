@@ -1,0 +1,40 @@
+
+# Day 9
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class, we were introduced to the next activity which included an example of a DEM map created with a LiDAR sensor. We also explored a data collected in a parking lot at K-State. Surprisingly, there was an unexpected elevation range with a difference of 9 feet. We then discussed the goal in space-time statistics of building custom statistical models. The hierarchical structure was briefly reviewed, from selecting probability density functions (PDFs) to modeling layers, choosing algorithms, and performing statistical inference. Important skills for this process were emphasized, such as setting clear goals, selecting appropriate statistical methods, and choosing a statistical programming language for data analysis.
+
+We also looked at a new example that involves predicting and quantifying rainfall uncertainty in Kansas. The initial steps in R covered data acquisition, selecting the area of study, and conducting exploratory data analysis, which included adjusting the sizes of weather station markers based on rainfall amounts and addressing missing data by case deleting NA's.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+Since this was an introductory class to a new example, I found it quite clear. However, I was somewhat confused towards the end of the class during the discussion about potential issues arising from different assumptions about missing data (NA's).
+
+## Is there anything else you would like me to be aware of?
+
+Despite the occasional repetition, revisiting some concepts from previous classes has been great to keep it fresh in our minds.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

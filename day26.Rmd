@@ -1,0 +1,18 @@
+# Day 26
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+We first visualized all earthquakes since 1977, focusing on the temporal effects only (no spatial considerations), and the locations of wells in Kansas. We then extrapolated the number of earthquakes to a specific area (100 $km^2$). Predicting the intensity of earthquakes in Kansas proved challenging. We also forecasted the expected number of earthquakes in a 1,000 $km^2$ area for the year 2024. We discussed the impact of adding or removing wells in a given region using a regression-style approach, which allows us to manipulate these variables as needed. Lastly, we reviewed the white-nose bat infection dataset in the US.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I don't fully comprehend the partial differential equations, although I managed to follow the example discussed in class.
+
+## Is there anything else you would like me to be aware of?
+
+
+
+
+
+
+

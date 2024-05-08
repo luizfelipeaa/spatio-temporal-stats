@@ -1,0 +1,246 @@
+
+# Activity 1
+
+## Load packages
+
+```{r message=FALSE, warning=FALSE}
+library(sf)
+library(lubridate)
+library(mgcv)
+library(rpart)
+library(party)
+library(leaflet)
+library(patchwork)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+## Obtain a .gpx or .csv file for your movement data.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+url <- "https://www.dropbox.com/scl/fi/mt4qyh9tmjjp1qyn7rq1f/Morning_Walk.gpx?rlkey=rr72rkduwgsorgpn2eafowpam&dl=1"
+
+str(data)
+```
+
+## Plot/map your movement data. I would recommend using R and/or Google earth as I demonstrated in class.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# Read the GPX data
+data <- st_read("Morning_Walk.gpx", layer = "track_points")
+```
+
+```{r}
+# Plot the movement data
+leaflet(data) %>%
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(
+    color = "darkorange", 
+    fill = TRUE, fillColor = "darkorange", fillOpacity = 0.8, radius = 2,
+    popup = ~paste("Time:", format(time, "%T")))
+```
+
+## Explore your movement data. For example, are there any unique features of your data (e.g., a large change in location)? Do your data contain location error? Really try to explore your data as best as possible using the plots/maps you made in 3.
+
+```{r fig.height=4, fig.width=12, message=FALSE, warning=FALSE}
+# Extract coordinates and convert to a data frame
+coords <- as.data.frame(st_coordinates(data))
+
+# Add elevation and time
+coords$ele <- data$ele
+coords$time <- data$time
+
+# Convert time to seconds
+coords$time <- as.numeric(difftime(coords$time, min(coords$time), units = "secs"))
+
+coords <- coords %>% 
+  rename(Longitude = X, 
+         Latitude = Y,
+         Elevation = ele,
+         Time = time)
+  
+# Data for plotting
+coords_plot <- coords %>% 
+  pivot_longer(-Time, names_to = "Variable", values_to = "Value")
+
+ggplot(coords_plot, aes(x = Time, y = Value, color = Variable)) +
+  geom_point(show.legend = F) +
+  facet_wrap(~Variable, scales = "free_y") +
+  scale_color_brewer(palette = "Set1") + 
+  theme_bw() +
+  theme(text = element_text(size = 18))
+```
+
+## Fit a statistical or machine learning model to your movement data. Obtain predictions of your location on a fine time scale so that the estimates resemble a continuous trajectory.
+
+```{r message=FALSE, warning=FALSE, }
+# Fit model to longitude using time as a predictor
+m1_long <- lm(Longitude ~ poly(Time, degree = 20, raw = T), data = coords)
+m2_long <- gam(Longitude ~ s(Time, bs="gp", k=50), data = coords)
+
+#summary(m1_long)
+#summary(m2_long)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Fit model to latitude using time as a predictor
+m1_lat <- lm(Latitude ~ poly(Time, degree = 20, raw = T), data = coords)
+m2_lat <- gam(Latitude ~ s(Time, bs="gp", k=50), data = coords)
+
+#summary(m1_lat)
+#summary(m2_lat)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Fit model to elevation using time as a predictor
+m1_elev <- lm(Elevation ~ poly(Time, degree = 20, raw = T), data = coords)
+m2_elev <- gam(Elevation ~ s(Time, bs="gp", k=50), data = coords)
+
+#summary(m1_elev)
+#summary(m2_elev)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Estimate movement trajectory at a very fine temporal scale (every 1/2th of a second)
+df.pred <- data.frame(Time = seq(0, as.numeric(max(coords$Time)), 0.5))
+
+df.pred$lon.m1.hat = predict(m1_long, newdata = df.pred)
+df.pred$lon.m2.hat = predict(m2_long, newdata = df.pred)
+
+df.pred$lat.m1.hat = predict(m1_lat, newdata = df.pred)
+df.pred$lat.m2.hat = predict(m2_lat, newdata = df.pred)
+
+df.pred$elev.m1.hat = predict(m1_elev, newdata = df.pred)
+df.pred$elev.m2.hat = predict(m2_elev, newdata = df.pred)
+```
+
+## Plot/map your estimated trajectory from 5. Explore your estimated trajectory as best as possible using the plots/maps. Note any unique features or shortcomings of your model.
+
+```{r fig.height=4.5, fig.width=12, message=FALSE, warning=FALSE}
+# Plot for Longitude
+plt.long <- ggplot() +
+  geom_point(data = coords, aes(x = Time, y = Longitude), size = 2, color = "grey") +
+  geom_line(data = df.pred, aes(x = Time, y = lon.m1.hat), color = "navy", size = 1) +
+  geom_line(data = df.pred, aes(x = Time, y = lon.m2.hat), color = "darkorange", size = 1) +
+  labs(x = "Time", y = "Longitude") +
+  theme_bw() +
+  theme(text = element_text(size = 18))
+
+# Plot for Latitude
+plt.lat <- ggplot() +
+  geom_point(data = coords, aes(x = Time, y = Latitude, color = "Observed data"), size = 2) +
+  geom_line(data = df.pred, aes(x = Time, y = lat.m1.hat, color = "Polynomial prediction"), size = 1) +
+  geom_line(data = df.pred, aes(x = Time, y = lat.m2.hat, color = "GAM prediction"), size = 1) +
+  scale_color_manual(values = c("Polynomial prediction" = "navy", 
+                                "GAM prediction" = "darkorange",
+                                "Observed data" = "grey50")) +
+  labs(x = "Time", y = "Latitude") +
+  theme_bw() +
+  theme(text = element_text(size = 18),
+        legend.position = "top", 
+        legend.direction = "vertical",
+        legend.title = element_blank())
+
+# Plot for Elevation
+plt.elev <- ggplot() +
+  geom_point(data = coords, aes(x = Time, y = Elevation), size = 2, color = "grey") +
+  geom_line(data = df.pred, aes(x = Time, y = elev.m1.hat), color = "navy", size = 1) +
+  geom_line(data = df.pred, aes(x = Time, y = elev.m2.hat), color = "darkorange", size = 1) +
+  labs(x = "Time", y = "Elevation") +
+  theme_bw() +
+  theme(text = element_text(size = 18))
+
+plt.long + plt.lat + plt.elev
+```
+
+```{r message=FALSE, warning=FALSE}
+# Create data frame for plotting
+df.pred.poly <- df.pred %>% 
+  select(Time, lon.m1.hat, lat.m1.hat) %>% 
+  rename(Longitude = lon.m1.hat, Latitude = lat.m1.hat) %>% 
+  mutate(Model = "Polynomial")
+
+df.pred.cart <- df.pred %>% 
+  select(Time, lon.m2.hat, lat.m2.hat) %>% 
+  rename(Longitude = lon.m2.hat, Latitude = lat.m2.hat) %>% 
+  mutate(Model = "GAM")
+
+df.pred.map <- df.pred.cart %>% rbind(df.pred.poly) %>% 
+  rbind(coords %>% dplyr::select(-Elevation) %>% mutate(Model = "Observed"))
+  
+color.model <- colorFactor(palette = c("Polynomial" = "darkorange", "GAM" = "navy", "Observed" = "yellow"), 
+                           domain = df.pred.map$Model)
+
+# Plot the movement data
+leaflet(df.pred.map) %>%
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(
+    ~Longitude,
+    ~Latitude,
+    fillColor = ~color.model(Model), 
+    color = ~"grey50",
+    radius = 3,
+    weight = 0.5,
+    fillOpacity = 1) %>%  
+  addLegend(
+    title = "Model",
+    position = "topright",
+    pal = color.model,
+    values = ~Model, 
+    opacity = 1)
+```
+
+## Estimate a feature or quantity of interest from your estimated trajectory (e.g., velocity, residence time, number of contacts, etc)
+
+```{r message=FALSE, warning=FALSE}
+# Calculate speed observed data
+dist <- st_distance(data$geometry[1:809], data$geometry[2:810], by_element = T)
+
+(sum(dist, na.rm = T)/1000)*.62 # looks okay (Strava = 0.74 mi)
+
+speed <- (dist/as.numeric(diff(data$time)))*2.24 
+
+plot(coords$Time[-1], speed, xlab="Time (seconds)",ylab="Velocity (miles per hour)", main = 'Observed')
+```
+
+```{r message=FALSE, warning=FALSE}
+#Convert model coordinates to sf object
+data.hat.m1 <- st_as_sf(df.pred, coords = c("lon.m1.hat", "lat.m1.hat"), 
+                           crs = st_crs(data))
+
+data.hat.m2 <- st_as_sf(df.pred, coords = c("lon.m2.hat", "lat.m2.hat"), 
+                           crs = st_crs(data))
+```
+
+
+```{r message=FALSE, warning=FALSE}
+# Calculate speed Polynomial
+dist.hat.m1 <- st_distance(data.hat.m1$geometry[1:1618], data.hat.m1$geometry[2:1619], by_element = T)
+
+(sum(dist.hat.m1)/1000)*.62
+
+speed.hat.m1 <- (dist.hat.m1/as.numeric(diff(data.hat.m1$Time)))*2.24
+
+plot(data.hat.m1$Time[-1], speed.hat.m1, xlab="Time (seconds)",ylab="Velocity (miles per hour)", main = 'Model: Polynomial')
+```
+
+
+```{r message=FALSE, warning=FALSE}
+# Calculate speed GAM
+dist.hat.m2 <- st_distance(data.hat.m2$geometry[1:1618], data.hat.m2$geometry[2:1619], by_element = T)
+
+(sum(dist.hat.m2)/1000)*.62
+
+speed.hat.m1 <- (dist.hat.m2/as.numeric(diff(data.hat.m2$Time)))*2.24
+
+plot(data.hat.m2$Time[-1], speed.hat.m1, xlab="Time (seconds)",ylab="Velocity (miles per hour)", main = 'Model: GAM')
+```
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+
+# Day 15
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+During the last class, we briefly reviewed what was taught before the spring break. During the spring break week, we had the chance to work on the final project and Activity 2, where we were introduced to some alternative, though not entirely "new" methods of dealing with our problem. We discussed the framework of model building, which first involves setting our goals, then writing out our statistical model, and finally programming and analyzing given data. In a live example, we reviewed linear models with correlated errors for the Kansas precipitation example, and finally, we were introduced to generalized additive models (GAMs). In the live example, we first assumed a normal distribution for the data model, and we also tested the Tweedie distribution, which allows for positive real numbers but also the inclusion of zeros. We ended up concluding that using a GAM model with the Tweedie distribution was the best approach, with our assumptions leading to better estimates, including precipitation greater than zero and more similar values to the observed data.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+Even though it would take time, digging a bit more into the GAM syntax would be awesome so we can understand better how to fix "phi," for example, or how to define the correct number of knots. I mean, something general but that could give us more applied skills.
+
+## Is there anything else you would like me to be aware of?
+
+It was interesting and useful to see how your workflow is, I mean, always reviewing the code and the part of data memorization, which I also think is a core skill.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

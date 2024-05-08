@@ -1,0 +1,28 @@
+
+# Day 16
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+During the last class, I worked on Activity 2 and implemented one of the Generalized Additive Models (GAM) to predict elevation. Additionally, I had the opportunity to discuss the final project with Aidan.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I find myself getting somewhat lost to write out the more complex models, such as gradient boosting and random forests.
+
+## Is there anything else you would like me to be aware of?
+
+The work days are very beneficial for us, as they allow us to put into practice what we learn in class.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

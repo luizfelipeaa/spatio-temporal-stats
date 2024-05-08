@@ -1,0 +1,35 @@
+
+# Day 10
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In our last class, we discussed the concepts of Geographic Information Systems (GIS). We explored different types of GIS data, including shapefiles, raster images, and points. Shapefiles represent continuous space objects, such as rivers and roads, with defined boundaries. Raster images, which are georeferenced, often come in large file sizes. The planar coordinate system, particularly the Universal Transverse Mercator (UTM), was introduced, emphasizing the importance of converting GIS files to this system for a more accurate representation that accounts for globe distortion. Handling heavy raster files requires caution due to potential computational expenses. The discussion also covered error propagation in GIS data and the conditions under which uncertainty might be disregarded, depending on the project objectives. Additionally, the concept of Gaussian processes and the modeling of spatial data through multivariate normal distributions were briefly introduced, allowing for the generation of random functions, shapes, and points from these distributions.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I am struggling a little to fully understand the concepts of Gaussian processing and the multivariate normal distribution introduced in class. The explanations provided were somewhat brief, and I am hopeful that future classes will delve deeper into these topics to enhance my understanding.
+
+## Is there anything else you would like me to be aware of?
+
+I would like you to be aware that the GIS overview was highly beneficial for aligning our understanding of this important tool.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

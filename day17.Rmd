@@ -1,0 +1,26 @@
+
+# Day 17
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+We began the class by reviewing how to choose a distribution necessary to support the data. It's important to be aware of various distributions. We also discussed model checking and evaluation. There is no correct method for model checking as it is very application-specific. We started with a model that includes only an intercept, assuming that errors are normally distributed. We examined predictions and scoring rules: logarithmic (the higher the number, the better); MSE (mean squared error), which should be used for normally distributed data; and MAE (mean absolute error), the most interpretive. The way we fit the model and our assumptions is related to the best or more appropriate scoring rule. We then looked at prediction intervals and the calibration of the model (proportion of predictions that fall within the 95% prediction interval). The issue was that the prediction intervals were too wide. If all our assumptions had been correct, the model would have been calibrated. Therefore, we fit a polynomial model, which somewhat assumes that the terrain is not flat (bowl shape). This model improved prediction accuracy (logarithmic, MSE, MAE) but had a calibration of 0.83 because the prediction intervals were now too narrow, indicating that the assumptions may not be the best yet. Next, we tried kriging, which showed worse or similar predictive accuracy compared to the polynomial model, and obtaining prediction intervals was much more challenging. We then tried boosted regression trees, which had roughly the same accuracy as the polynomial model. However, as a machine learning tool, it does not provide prediction intervals. The differences between the methods are so fine that, if we are concerned with model checking, we would need significantly more data.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I was not very familiar with the calibration technique, nor the logarithmic scoring rule. I did not completely understand and will read the reference paper provided.
+
+## Is there anything else you would like me to be aware of?
+
+
+
+
+
+
+
+
+
+
+
+
+
+

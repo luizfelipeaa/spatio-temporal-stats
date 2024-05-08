@@ -1,0 +1,25 @@
+
+# Day 7
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class, we went through the framework of hierarchical modeling using the whooping crane dataset. More specifically, we discussed the data and process models. The data model (model for the data that was generated or collected) can be defined as $[z|y,\theta_D]$, where $\textbf{z}$ represents the counts put into a vector (actual data), $\textbf{y}$ is the true number of whooping cranes, $\theta_D$ is just a parameter (probability of a whooping crane to be there), and $[~]$ is the notation used to indicate a probability density function (PDF) or probability mass function (PMF).
+
+Then, we started a discussion on what would be the support of $\textbf{y}$ and $\textbf{z}$, which will essentially ensure predictions within the range that the data distribution can take. Considering that counts are integers, the lower boundary should not be lower than 0, and the upper bound is somewhat unknown (we could assume infinity). We ended up assuming that the data model follows a Binomial distribution ($[z|y,p] = \text{Binomial}(y,p)$).
+
+The second component of the hierarchical model is the process model, representing the data we wish we had. In this component, a PDF given $y$ could have generated the true number of whooping cranes, $[y|\theta_P]$. In this example, we assumed a Poisson distribution for the process model, where lambda is the expected value and variance ($[y|\lambda_0,\gamma] = \text{Pois}(\lambda_0(t))$).
+
+We then defined the mathematical equation for lambda as $\lambda_t = \exp^{\beta_0+\beta_1 \times t}$, which is the analytical solution of an ordinary equation to describe growth rate (differential equation). In this equation, the true number of whooping cranes depends on the initial number and the growth rate.
+
+Lastly, we started looking at the parameter model, which is an extra layer to build a hierarchical Bayesian model, defining priors to parameters $p$, $\lambda_0$, and $\gamma$.
+
+## Write a  paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I am struggling with some of the mathematical operations of the differential equations, or visualizing how those empirical hierarchical models would be implemented/useful in practice without the Bayesian component. The rest of the class was very clear to me!
+
+## Is there anything else you would like me to be aware of?
+
+The idea of having a Q&A session in class would be nice. It won't be the same format, but I remember that I learned a lot just by listening to other people questions during the office hours at the STAT705 course you taught. Especially for international students, sometimes it is hard to us to formulate a straightforward and concise question. Great idea!
+
+
+

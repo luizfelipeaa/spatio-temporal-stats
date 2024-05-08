@@ -1,0 +1,28 @@
+
+# Day 3
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In the marathon example, we saw that checking model performance might require auxiliary information, and replicating spatio-temporal data is almost impossible. Instead, we would need to explore alternative methods, such as using a second device to record position. The gold standard way to do it would be to achieve an excellent performance in a dataset never ever seen by the model (out-of-sample predictive performance). The discussion also covered model improvement, emphasizing that our assumptions significantly influence this aspect. I was unaware of how to fit a model using recursive partitioning, where a statistical model is fitted for each terminal node, nor did I know that this was a cutting-edge technique. Although I had heard about it, it is not commonly used in my area of study. The definition of overfitting was also presented in a straightforward way (e.g.: interpolation, going through every single data point) where we would capture not only the true location but also the data associated error. In conclusion, a model is a simplification of reality, simpler than the actual data but still generative (capable of producing fake data). I particularly liked the definition of statistical models as a combination of a deterministic equation and a probabilistic function (error term). However, we need to be aware that sometimes a more complex model may complicate our lives rather than help depending on what question we are trying to answer.
+
+## Write a  paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I am kind of struggling a bit to translate what we learned from the marathon example to my research area. I mean, everything seems pretty doable, but at the same time, it's very complex to implement, depending on the type of data. This is despite the fact that almost all data has a temporal or spatial component, but not all will have this "visual" interpretation. 
+
+## Is there anything else you would like me to be aware of?
+
+I have been reading the reference book, and there are some examples that directly or indirectly relate to topics discussed in class (e.g.: IDW being simply a weighted average of the data points and therefore deterministic). This connection really helps connecting the lecture and the material. If possible, it would be great to have a brief explanation of the GAM models in class (considering how customizable these models are), approached in a more applied manner, more on how to select the smooth, determine the number of knots, or choose the function. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

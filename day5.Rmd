@@ -1,0 +1,22 @@
+
+# Day 5
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class we reviewed some concepts of what is a statistical model and how it generates data similar to what was observed based on our assumptions. Then we moved to probability density theory and some examples were given for the normal and Bernoulli distributions (special case of binomial) and as shown, we need to be careful on how we write out the models to communicate what we want to show. We also learned about moments, with the first moment being the expected value and the second central moment being the variance, represented as $y_i= N(\mu_i, \sigma^2_i)$.  We saw how to control these moments mathematically, with the first moment $\mu_i$ being controlled by $\beta_0 + \beta_1 \times X_i$ and the second moment $\sigma^2$ being controlled by the exponential function $\exp^{\alpha_0 + \alpha_i \times X_i}$.
+
+We learned that the expected value, calculated as an integral, is different from the mean, which is just the average of numbers. The line of best fit in the marathon example we looked at was actually showing the expected value, not just a "visual representation". We discussed different estimation methods, like maximum-likelihood estimation, which was created in the 1930s and gives unbiased, precise estimates, and least squares, which is used only for estimation and doesn't allow for making inferences.
+
+We also talked about the inverse probability integral transform, a method that uses a uniform distribution to create a random variable and then changes it into another distribution. This is what computers do to generate random numbers for other PDFs. Lastly, we briefly discussed about about MCMC, an algorithm that lets us create random variables from almost any distribution and sample from those. 
+
+
+## Write a  paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+During the last part of our class, we discussed about difference equations and differential equations, which was quite challenging for me. I understand the basic concept that difference equations deal with discrete time intervals, while differential equations are used for dynamical systems, treating time as continuous. However, my understanding doesn't go much beyond this. Since I have never had a class specifically on these topics. I also didn't really understood when we would want to have bias or unbiased estimates using maximum-likelihood. The discussion on bias and unbiased estimates in the context of maximum-likelihood was a bit confusing. I didn't quite get  when we would prefer to have biased estimates.
+
+## Is there anything else you would like me to be aware of?
+
+The idea of coding these functions from scratch as an exercise seemed like a great way to understand these concepts better.  
+
+
+

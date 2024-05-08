@@ -1,0 +1,21 @@
+
+# Day 20
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+This class focused on the final project, providing me the opportunity to discuss priors for non-linear models in agriculture, discuss model convergence, and also the application of the area under the curve (AUC) for non-linear models.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I did not have any struggle in the last class.
+
+## Is there anything else you would like me to be aware of?
+
+It was good to know that my plans for the final project are on the right track. I am making progress and planning to start writing the tutorial and report soon.
+
+
+
+
+
+
+

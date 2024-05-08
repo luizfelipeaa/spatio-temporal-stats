@@ -1,0 +1,18 @@
+# Day 24
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In the last class, we analyzed the earthquake dataset in Kansas, which comprised its time, location, and magnitude. In the first approach, we utilized well maps to make predictions and inferences, using this information as a covariate to explain increases or decreases in the risk of an earthquake. In the first hierarchical model, we assumed the data model as $y = z$ and a process model $z \sim IPPP(\lambda_{(s,t)})$, being the deterministic equation of $\lambda_{(s,t)} = \exp^{\beta_0+\beta_1 \times X_{(s,t)} + \eta_s + \eta_t}$. The $\eta_s$ and $\eta_t$ were assumed to follow a $MVN$ distribution with mean 0 and covariance $\Sigma$. We then calculated the distances from earthquakes to the nearest wells, which averaged 7.5 km. In a subsequent step, we generated 25k random points across Kansas and checked the average distance of all points to the nearest earthquake, which was 10.5 km. This crude summary indicates that earthquakes occur 3km further away from random points than from wells. The model coefficients provided information about the intensity of the earthquakes, which declined as the distance increased. Lastly, we mapped $\lambda_{(s,t)}$ and examined its predictions. As the second approach, we fit a log-Gaussian Cox process model, which ultimately showed that space and time significantly influence earthquakes and that wells did not completely explain earthquake intensity in Kansas.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+The live example was very clear. However, I was somewhat confused towards the end of the class when we compared the real space-time effect of the second approach with the first one, using wells as a covariate. I suppose the point of the comparison was to demonstrate that these factors were not 100% related to the locations of oil and gas lines.
+
+## Is there anything else you would like me to be aware of?
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+
+# Day 2
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class, I learned about the importance of checking the credentials of R package developers before deciding to use their packages for long-term projects. It was interesting to learn that increasing the volume of data to millions or billions of data points per second doesn't necessarily help solve the problem; it might actually introduce more measurement error as the intervals between recorded locations get smaller. The class discussion also touched on how overfitting is often viewed as a more significant issue than underfitting by peers reviewing your model or work. However, we saw that a high R-squared value could misleadingly suggest an underfitted predictive model that would not be suitable for navigation (if that was out goal). The idea that regression trees could be an alternative modeling approach was unexpected. The model was set in R to overfit the data (complexity parameter), and although they didn’t perform perfectly due to the continuous nature of time and the assumption that we were stationary for several seconds, the resulting shape was still pretty impressive. What I take from this is that the right approach depends on the specific question we are trying to answer.
+
+## Write a  paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I believe that I understood all the material covered in class today.
+
+## Is there anything else you would like me to be aware of?
+
+I really enjoyed this second class!!

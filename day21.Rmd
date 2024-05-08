@@ -1,0 +1,21 @@
+
+# Day 21
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class, we looked into an aphid disease dataset in Kansas (KS). The goals are to produce accurate prediction maps for vector abundance and the probability of infection, and to understand the environmental factors influencing vector abundance and the probability of infection. Auxiliary data such as weather, land cover, and crop data may be very helpful. In the live example, we loaded the disease dataset and a raster with the land cover in KS. We then transformed the raster to show the grassland area only and calculated and plotted the percentage of land area that is grassland within a 5km radius at sampled locations. Moving to the modeling, we assume that the data model is $z = y$ (true abundance of aphids is the same as the counted), and that the process model is $[y|\ldots]$ (we assume a distribution). The expected value of the process model was assumed as: $E(y) = e^{\beta_0+\beta_1 \times X + \eta_s + \eta_t}$ (log link function), with $\eta_s \sim MVN(0,\Sigma)$. We assumed three different distributions for the process model (for $y$) which were: Poisson, negative binomial, and a zero-inflated Poisson distributions. We don't care about the significance, but we do care about the magnitude of the estimates according to changes in grassland. We generally see that if grassland increases, the abundance of aphids decreases. Checking the coefficients, if there is less grassland, the first model says we would have twice the number of aphids, the second model 35% more, and the third model 33% more aphids. We finally compare models using AIC to check the predictive performance, and by far, the negative binomial model was superior to the other models. We also checked concurvity (effect of random effects on fixed effects - we cannot infer if there is or is not a correlation between the grassland ($X$) or the $\eta_s$).
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I did not fully understand the concept of concurvity.
+
+## Is there anything else you would like me to be aware of?
+
+The discussion and paper regarding whether or not to include random effects in a model was very interesting. 
+
+
+
+
+
+
+

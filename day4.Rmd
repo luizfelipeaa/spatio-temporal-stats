@@ -1,0 +1,26 @@
+
+# Day 4
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+We began the class by discussing outlier removal and other forms of data "manipulation." As taught, it's generally not advisable because establishing criteria for "editing" data is challenging, and it may lead to loss of information or even introduce problems, as highlighted in the Challenger temperature example. We then discussed some theoretical concepts: prediction (which is usually more accurate within the interval of collected data), hindcast (determining probable past values), and forecast (future scenarios of the data). It's essential to communicate the uncertainty surrounding the predictions. However, the method used to inform uncertainty can influence the perception of a model. For instance, confidence intervals provide uncertainty about the expected values, often narrowing the visual uncertainty and, in most of the cases, failing to meet assumptions of a frequentist model. In contrast, we saw that prediction intervals might offer a more reliable measure of the uncertainty of future collected data, with a given probability, based on what has already been observed. We also discussed the inference of observable (directly measurable in the real-world) and unobservable quantities (like the slope of a regression line, its magnitude, direction, and certainty).
+
+It was very helpful to revisit vector and matrix notations, as well as operations. We started reviewing distribution theory, and it was interesting to learn that during your time in Colorado, knowledge in this area significantly distinguished the proficiency of you co-workers in statistics, emphasizing the importance of this topic.
+
+## Write a  paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I feel that I still somewhat struggle with, or am not entirely confident in, formulating more complex statistical models or fully understanding all the components of mathematical equations related to probability theory. It's a topic I've been trying to improve if I need to implement in my research. While it's usually easier to implement some of these concepts computationally in R, writing them out and comprehending the entire mathematical foundation behind them is more challenging.
+
+## Is there anything else you would like me to be aware of?
+
+You briefly mentioned experimental data and the assumption that spatio-temporal effects shouldn't influence the outcome, yet they sometimes do. I would appreciate it if you could dig a bit more into this topic and provide examples when possible. Additionally, it would be beneficial if we had another opportunity to find a partner to work on the final project.
+
+
+
+
+
+
+
+
+
+

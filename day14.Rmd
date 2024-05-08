@@ -1,0 +1,34 @@
+
+# Day 14
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In yesterday's class, we had another opportunity to discuss Activity 2 and the final project. At the beginning of the class, we were introduced to various alternatives for addressing the elevation problem. These included the low-rank Gaussian process, regression trees (which involve a series of flat elevation spots), gradient boosting (noted for its high predictive accuracy), and support vector machines (which helps to smooth the predictions).
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I would like to gain a better understanding of how gradient boosting works and how it can be superior to random forests, for example. 
+
+## Is there anything else you would like me to be aware of?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,365 @@
+
+# Activity 2
+
+The goal of this activity is to visualize the elevation data of an experimental site in the North Agronomy Farm at Kansas State University. Also my goal is to predict elevation with different models and infer at what location we observe the lowest and highest elevation point.
+
+
+## Load packages
+
+```{r message=FALSE, warning=FALSE}
+library(sf)
+library(sp)
+library(raster)
+library(tidyverse)
+```
+
+
+## Chose an area on or close to campus where it is easy for you to understand how the elevation changes. For example, I chose the parking lot outside of Dickens Hall. Using a smartphone record the elevation at several locations (points) within the area you chose. I recommend using the app Strava, but you can use whatever you want.
+
+The data was collected near where I live.
+
+## Obtain a .gpx or .csv file for your elevation data. At minimum the file should contain the location and time of the elevation measurements.
+
+Two .gpx files were generated: one for the area boundaries and one for the elevation data.
+
+## Plot/map your elevation data. I would recommend using R and/or Google earth.
+
+```{r fig.keep=2:4, message=FALSE, warning=FALSE}
+download.file("http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_us_state_20m.zip", destfile = "states.zip")
+unzip("states.zip")
+sf.us <- st_read("cb_2015_us_state_20m.shp")
+sf.kansas <- sf.us[48,6]
+sf.kansas <- as(sf.kansas, 'Spatial')
+
+url1 <- "https://www.dropbox.com/scl/fi/cfvdqoe9y7nx2yebvlusf/hill2.gpx?rlkey=orq8idvojvgxyo0orwtg0w5g4&dl=1"
+pt.study.area <- st_read(dsn=url1,layer="track_points")
+sf.study.area  <- st_polygon(list(rbind(st_coordinates(pt.study.area),st_coordinates(pt.study.area)[1,])))
+sf.study.area <- st_buffer(sf.study.area, .00006)
+sf.study.area <- st_sf(st_sfc(sf.study.area), crs = crs(sf.kansas))
+
+# Plot study area
+plot(sf.study.area, col="lightgreen")
+mapview::mapview(sf.study.area)  
+
+# Obtain elevation data
+url2 <- "https://www.dropbox.com/scl/fi/ylx9yc62ajeba5wd7iuum/hill1.gpx?rlkey=ah3qh1ogtq6z41wxs2c303e2a&dl=1"
+pt.elev <- st_read(dsn=url2,layer="track_points")
+pt.elev <- pt.elev[,4] # Keep only elevation
+pt.elev <- pt.elev[-c(1:15),]
+pt.elev <- rbind(pt.elev,pt.study.area[,4])
+```
+
+## Explore your elevation data. For example, are there any unique features of your data? Do your data contain obvious measurement error (e.g., an elevation that can’t possibly be true)? Really try to explore your data as best as possible using the plots/maps you made in.
+
+From my perspective of the area where I collected the data, there appears to be measurement error in the data points. It seems that the GPS was not able to accurately distinguish some of the locations, possibly because I was collecting the data at varying speeds.
+
+```{r}
+plot(sf.study.area)
+plot(pt.elev,add=TRUE)
+hist(pt.elev$ele,col="grey")
+summary(pt.elev$ele)
+
+ggplot() +
+  geom_sf(data=sf.study.area, color = "black") +
+  geom_sf(data=pt.elev, aes(color = ele), size = 4)+
+  scale_color_gradient(low="red", high="darkgreen", name = "Elevation (m)")+
+  theme_bw()
+```
+
+```{r}
+# Transform to a planar coordinate reference system
+pt.elev.utm <- st_transform(pt.elev,CRS("+proj=utm +zone=14 +datum=WGS84  +units=m"))
+sf.study.area.utm <- st_transform(sf.study.area,CRS("+proj=utm +zone=14 +datum=WGS84  +units=m"))
+```
+
+```{r}
+# Dataframe for the models
+df.elev <- data.frame (elev = pt.elev$ele,
+                       long = st_coordinates(pt.elev)[,1],
+                       lat = st_coordinates(pt.elev)[,2],
+                       s1 = st_coordinates(pt.elev.utm)[,1],
+                       s2 = st_coordinates(pt.elev.utm)[,2])
+```
+
+## Write out the goals that you wish to accomplish using your elevation data. For example, my goal was to make a map of the Dicken’s Hall parking lot. This involves using the elevation data I collected to make predictions of the elevation at any possible spatial locations within the parking lot. I would also like to make inference about the location where the elevation is lowest within the parking lot.
+
+My goal is to obtain the most precise predictions of the area's elevation and determine the location with the lowest elevation.
+
+## Write out several statistical or machine learning models that you think you can use to answer the questions/goals you wrote in prompt #5. Be as creative and inclusive here. For each statistical or machine learning model, make sure you explain each component (piece) of the model
+
+Linear model:    
+$y_i = \beta_0 + \beta_1 \cdot Long + \beta_2 \cdot Long^2 + \beta_3 \cdot Lat + \beta_4 \cdot Lat^2 + \epsilon_i$  
+$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$  
+
+GAM Model: 
+$y_i= \beta_0 + f(Long, Lat) + \epsilon_i$  
+$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$
+
+## Of the models you developed in prompt #6, find (or develop) software to fit at least two of these models to your elevation data. Note that in a perfect world, you would be able to either find existing software or develop new programs that enable you to fit any statistical or machine learning model you want. In reality, you may may end up having to make some unwanted changes to your models in prompt #6 to be able to find existing software to fit these models to the data.
+
+> Linear model
+
+```{r}
+# Statistical analysis 1: non-hierarchical linear model with iid errors
+m1 <- lm(elev~s1+I(s1^2)+s2+I(s2^2),data=df.elev)
+# Make raster of study area to be able to map predictions from m1
+rl.E.y_lin <- raster(,nrow=100,ncols=100,ext=extent(sf.study.area.utm),crs=crs(sf.study.area.utm))
+# Make data.frame to be able to make predictions at each pixel (cell of raster)
+df.pred <- data.frame(elev = NA,
+                      s1 = xyFromCell(rl.E.y_lin,cell=1:length(rl.E.y_lin[]))[,1],
+                      s2 = xyFromCell(rl.E.y_lin,cell=1:length(rl.E.y_lin[]))[,2])
+
+# Make spatial predictions at each pixel
+df.pred$elev <- predict(m1,df.pred[,2:3])
+
+# View first 6 rows of predictions
+head(df.pred) 
+
+# Fill raster file with predictions 
+rl.E.y_lin[] <- c(df.pred$elev)
+
+rl.E.y_lin <- mask(rl.E.y_lin,sf.study.area.utm)
+
+# Estimate coordinates and amount of maximum elevation
+xyFromCell(rl.E.y_lin,cell=which.max(rl.E.y_lin[]))
+
+rl.E.y_lin[which.max(rl.E.y_lin[])]
+
+rl.E.y_lin_df <- as.data.frame(raster::rasterToPoints(rl.E.y_lin))
+colnames(rl.E.y_lin_df) <- c("lon", "lat", "elevation")
+
+min_elevation_value_lin <- min(rl.E.y_lin_df$elevation)
+min_elevation_point_df_lin <- rl.E.y_lin_df[which.min(rl.E.y_lin_df$elevation), ]
+
+ggplot() +
+  geom_raster(data = rl.E.y_lin_df, aes(x = lon, y = lat, fill = elevation)) +
+  geom_sf(data = sf.study.area.utm, fill = NA, color = "black") +
+  geom_point(data = min_elevation_point_df_lin, 
+             aes(x = lon, y = lat, color = "Mininum elevation"), size = 8, shape = 8) +
+  labs(title = "Linear Model", x = "Longitude", y = "Latitude", color = "") +
+  scale_fill_viridis_c(name = "Elevation (m)") +
+  scale_color_manual(values = c("Mininum elevation" = "red")) +
+  theme_bw()
+```
+
+> GAM model
+
+```{r message=FALSE, warning=FALSE}
+# Try low-rank Gaussian process (i.e., modern kriging model)
+library(mgcv)
+m2 <- gam(elev~s(s1,s2,bs="gp",k=50),data=df.elev)
+
+# Make raster of study area to be able to map predictions from m2
+rl.E.y_gam <- raster(,nrow=100,ncols=100,ext=extent(sf.study.area.utm),crs=crs(sf.study.area.utm))
+# Make data.frame to be able to make predictions at each pixel (cell of raster)
+df.pred <- data.frame(elev = NA,
+                      s1 = xyFromCell(rl.E.y_gam,cell=1:length(rl.E.y_gam[]))[,1],
+                      s2 = xyFromCell(rl.E.y_gam,cell=1:length(rl.E.y_gam[]))[,2])
+
+# Make spatial predictions at each pixel
+df.pred$elev <- predict(m2,df.pred[,2:3])
+
+# View first 6 rows of predictions
+head(df.pred) 
+
+# Fill raster file with predictions 
+rl.E.y_gam[] <- c(df.pred$elev)
+
+rl.E.y_gam <- mask(rl.E.y_gam,sf.study.area.utm)
+
+# Estimate coordinates and amount of maximum elevation
+xyFromCell(rl.E.y_gam,cell=which.max(rl.E.y_gam[]))
+
+rl.E.y_gam[which.max(rl.E.y_gam[])]
+
+rl.E.y_gam_df <- as.data.frame(raster::rasterToPoints(rl.E.y_gam))
+colnames(rl.E.y_gam_df) <- c("lon", "lat", "elevation")
+
+min_elevation_value <- min(rl.E.y_gam_df$elevation)
+min_elevation_point_df <- rl.E.y_gam_df[which.min(rl.E.y_gam_df$elevation), ]
+
+ggplot() +
+  geom_raster(data = rl.E.y_gam_df, aes(x = lon, y = lat, fill = elevation)) +
+  geom_sf(data = sf.study.area.utm, fill = NA, color = "black") +
+  geom_point(data = min_elevation_point_df, 
+             aes(x = lon, y = lat, color = "Mininum elevation"), size = 8, shape = 8) +
+  labs(title = "GAM Model", x = "Longitude", y = "Latitude", color = "") +
+  scale_fill_viridis_c(name = "Elevation (m)") +
+  scale_color_manual(values = c("Mininum elevation" = "red")) +
+  theme_bw()
+```
+
+## Related to prompt #5, use both models you fit to your elevation data in prompt #7 to answer the questions/goals. For my elevation data, this would include making a predictive heatmap showing the elevation of the Dickens Hall parking lot and then estimating the coordinates of the point where elevation is at a minimum.
+
+The GAM model does a way better job on predicting the lowest elevation point (validated by myself).
+
+
+## Based on the material in Chapter 6 of Spatio-Temporal Statistics with R and our discussion in class on March 26, compare, check and evaluate the two models from #8.
+
+```{r}
+set.seed(123)
+trainIndices <- sample(1:nrow(df.elev), size = floor(0.7 * nrow(df.elev)))
+
+# Subset the data into train and test sets
+train.elev <- df.elev[trainIndices, ]
+test.elev <- df.elev[-trainIndices, ]
+```
+
+> Linear model (Train set)
+
+```{r}
+# Statistical analysis 1: non-hierarchical linear model with iid errors
+m1 <- lm(elev~s1+I(s1^2)+s2+I(s2^2),data=train.elev)
+# Make raster of study area to be able to map predictions from m1
+rl.E.y_lin <- raster(,nrow=100,ncols=100,ext=extent(sf.study.area.utm),crs=crs(sf.study.area.utm))
+# Make data.frame to be able to make predictions at each pixel (cell of raster)
+df.pred <- data.frame(elev = NA,
+                      s1 = xyFromCell(rl.E.y_lin,cell=1:length(rl.E.y_lin[]))[,1],
+                      s2 = xyFromCell(rl.E.y_lin,cell=1:length(rl.E.y_lin[]))[,2])
+
+# Make spatial predictions at each pixel
+df.pred$elev <- predict(m1,df.pred[,2:3])
+
+# View first 6 rows of predictions
+head(df.pred) 
+
+# Fill raster file with predictions 
+rl.E.y_lin[] <- c(df.pred$elev)
+
+rl.E.y_lin <- mask(rl.E.y_lin,sf.study.area.utm)
+
+# Estimate coordinates and amount of maximum elevation
+xyFromCell(rl.E.y_lin,cell=which.max(rl.E.y_lin[]))
+
+rl.E.y_lin[which.max(rl.E.y_lin[])]
+
+rl.E.y_lin_df <- as.data.frame(raster::rasterToPoints(rl.E.y_lin))
+colnames(rl.E.y_lin_df) <- c("lon", "lat", "elevation")
+
+min_elevation_value_lin <- min(rl.E.y_lin_df$elevation)
+min_elevation_point_df_lin <- rl.E.y_lin_df[which.min(rl.E.y_lin_df$elevation), ]
+
+ggplot() +
+  geom_raster(data = rl.E.y_lin_df, aes(x = lon, y = lat, fill = elevation)) +
+  geom_sf(data = sf.study.area.utm, fill = NA, color = "black") +
+  geom_point(data = min_elevation_point_df_lin, 
+             aes(x = lon, y = lat, color = "Mininum elevation"), size = 8, shape = 8) +
+  labs(title = "Linear Model", x = "Longitude", y = "Latitude", color = "") +
+  scale_fill_viridis_c(name = "Elevation (m)") +
+  scale_color_manual(values = c("Mininum elevation" = "red")) +
+  theme_bw()
+```
+
+> GAM model (Train set)
+
+```{r message=FALSE, warning=FALSE}
+# Try low-rank Gaussian process (i.e., modern kriging model)
+library(mgcv)
+m2 <- gam(elev~s(s1,s2,bs="gp",k=50),data=train.elev)
+
+# Make raster of study area to be able to map predictions from m2
+rl.E.y_gam <- raster(,nrow=100,ncols=100,ext=extent(sf.study.area.utm),crs=crs(sf.study.area.utm))
+# Make data.frame to be able to make predictions at each pixel (cell of raster)
+df.pred <- data.frame(elev = NA,
+                      s1 = xyFromCell(rl.E.y_gam,cell=1:length(rl.E.y_gam[]))[,1],
+                      s2 = xyFromCell(rl.E.y_gam,cell=1:length(rl.E.y_gam[]))[,2])
+
+# Make spatial predictions at each pixel
+df.pred$elev <- predict(m2,df.pred[,2:3])
+
+# View first 6 rows of predictions
+head(df.pred) 
+
+# Fill raster file with predictions 
+rl.E.y_gam[] <- c(df.pred$elev)
+
+rl.E.y_gam <- mask(rl.E.y_gam,sf.study.area.utm)
+
+# Estimate coordinates and amount of maximum elevation
+xyFromCell(rl.E.y_gam,cell=which.max(rl.E.y_gam[]))
+
+rl.E.y_gam[which.max(rl.E.y_gam[])]
+
+rl.E.y_gam_df <- as.data.frame(raster::rasterToPoints(rl.E.y_gam))
+colnames(rl.E.y_gam_df) <- c("lon", "lat", "elevation")
+
+min_elevation_value <- min(rl.E.y_gam_df$elevation)
+min_elevation_point_df <- rl.E.y_gam_df[which.min(rl.E.y_gam_df$elevation), ]
+
+ggplot() +
+  geom_raster(data = rl.E.y_gam_df, aes(x = lon, y = lat, fill = elevation)) +
+  geom_sf(data = sf.study.area.utm, fill = NA, color = "black") +
+  geom_point(data = min_elevation_point_df, 
+             aes(x = lon, y = lat, color = "Mininum elevation"), size = 8, shape = 8) +
+  labs(title = "GAM Model", x = "Longitude", y = "Latitude", color = "") +
+  scale_fill_viridis_c(name = "Elevation (m)") +
+  scale_color_manual(values = c("Mininum elevation" = "red")) +
+  theme_bw()
+```
+
+## Check model performance
+
+> Linear model (Test set)
+
+```{r}
+# Compare point prediction of the the expected value of elevation (E(y)) to
+# observed records from new data set.
+E.y.Linear <- predict(m1,newdata=test.elev)
+plot(E.y.Linear,test.elev$elev,xlab="Predicted expected value",ylab="New observed elevation")
+
+# Quantify predictive accuracy using scoring rule 
+# For more details see Ch.6 or https://www.annualreviews.org/content/journals/10.1146/annurev-statistics-062713-085831
+
+sum(dnorm(test.elev$elev,E.y.Linear,log=TRUE)) # logarithmic scoring rule (proper scoring rule for linear model)
+mean((test.elev$elev - E.y.Linear)^2) # Mean square error. Commonly used scoring rule, but not proper scoring rule for ALL situations
+mean(abs(test.elev$elev - E.y.Linear)) # Mean absolute error. Commonly used scoring rule, but not proper scoring rule for ALL situations
+
+
+# Quantify calibration of predictive intervals. Note that the code below only works
+# with the linear model (i.e., lm function). It is somewhat difficult or impossible to
+# get prediction intervals from the other models (e.g., difficult = gam; impossible = regression tree)
+
+PI.Linear <- predict(m1,newdata=test.elev,
+               interval = c("prediction"),
+               level = 0.95)
+
+# Determine what % of the new observations fall within the
+# prediction intervals. This % is called calibration. A 95%
+# prediction interval should cover 95% of new observations
+# if it is calibrated and the model doesn't have issues that
+# need to be fixed. 
+
+mean(ifelse(test.elev$elev>PI.Linear[,2],1,0)*ifelse(test.elev$elev<PI.Linear[,3],1,0))
+```
+
+> GAM model (Test set)
+
+```{r}
+# Compare point prediction of the the expected value of elevation (E(y)) to
+# observed records from new data set.
+E.y.GAM <- predict(m2,newdata=test.elev)
+plot(E.y.GAM,test.elev$elev,xlab="Predicted expected value",ylab="New observed elevation")
+
+# Quantify predictive accuracy using scoring rule 
+# For more details see Ch.6 or https://www.annualreviews.org/content/journals/10.1146/annurev-statistics-062713-085831
+
+sum(dnorm(test.elev$elev,E.y.GAM,log=TRUE)) # logarithmic scoring rule (proper scoring rule for linear model)
+mean((test.elev$elev - E.y.GAM)^2) # Mean square error. Commonly used scoring rule, but not proper scoring rule for ALL situations
+mean(abs(test.elev$elev - E.y.GAM)) # Mean absolute error. Commonly used scoring rule, but not proper scoring rule for ALL situations
+```
+
+Overall, the GAM model resulted superior compared to the linear model. For all the scoring rules, the GAM model showed a higher predictive accuracy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+
+# Day 18
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In the last class, we briefly saw some model selection criteria (AIC, BIC, ...), and then we worked on the final projects.  
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+In the last class, I was mostly working on the final project and didn't have anything I struggled to follow.
+
+## Is there anything else you would like me to be aware of?
+
+
+
+
+
+
+
+
+
+
+
+
+
+

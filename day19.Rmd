@@ -1,0 +1,22 @@
+
+# Day 19
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+In today's class, we were introduced to a spatial-temporal disease dataset, along with a tutorial written years ago, which remains very useful today. We first loaded the packages sf, sp, and raster, as well as the dataset. We then prepared a point coordinate dataframe to visualize the map of the raw data, indicating the amount of aphids at given latitudes and longitudes. We checked the goals set for the study, which were to create a map with aphid count predictions in Kansas and to identify which environmental factors influence the number of aphids. We downloaded data from the National Land Cover Database, separating grassland (pixel value = 1) from non-grassland (pixel value = 0), and looked at some summaries of the data. We fit three different models to the data. The first assumes a data model where $Z = y$ and the process model is $[y|.]$. For the three models, we applied a log-link function to the expected value $E(y) = e^{\beta_0 + \beta_1 \times X + \eta_s + \eta_t}$, where $\eta_s$ is the site effect and $\eta_t$ is the time effect, ensuring the expected value is always greater than zero. The process model for the spatial effect is $\eta_s \sim MVN(0,\Sigma)$, and for the temporal effect, given we have only two years of data, we used a more crude approximation: $\eta_t = \alpha_{2014}$ if $t=2014$ and $\eta_t = \alpha_{2015}$ if $t=2015$. The first model is assumed to follow a Poisson distribution, the second a negative binomial distribution, and the third model a zero-inflated Poisson distribution (a mixture distribution). Next class: how to present results and conduct model checking.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+I did not really understand the R output of the model with the mixture distribution (zero-inflated Poisson distribution).
+
+## Is there anything else you would like me to be aware of?
+
+The new example was really good for applying all that we have learned, and the quick explanation about the link functions was very useful.
+
+
+
+
+
+
+
+

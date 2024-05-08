@@ -1,0 +1,19 @@
+# Day 23
+
+## Write a paragraph about something new you learned in class within the past 24 hours.
+
+Last class I worked on the Activity 3, trying to play with other land cover types and variables that could explain the aphid abundance.
+
+## Write a paragraph about something you are struggling to understand that was covered in class within the past 24 hours.
+
+Last class was very clear to me, and I do not have any current struggle.
+
+## Is there anything else you would like me to be aware of?
+
+For the next class, it would be nice to explore a Bayesian model version for the Activity 3.
+
+
+
+
+
+
