@@ -1,0 +1,52 @@
+book_filename: "Portfolio"
+output_dir: "docs"
+delete_merged_file: true
+edit: "https://github.com/luizfelipeaa/spatio_temporal_stats/edit/main/%s"
+view: "https://github.com/luizfelipeaa/spatio_temporal_stats/blob/main/%s"
+language:
+  ui:
+rmd_files: [
+  
+  "day1.Rmd",
+  "day2.Rmd",
+  "day3.Rmd",
+  "day4.Rmd",
+  "day5.Rmd",
+  "day6.Rmd",
+  "day7.Rmd",
+  "day8.Rmd",
+  "day9.Rmd",
+  "day10.Rmd",
+  "day11.Rmd",
+  "day12.Rmd",
+  "day13.Rmd",
+  "day14.Rmd",
+  "day15.Rmd",
+  "day16.Rmd",
+  "day17.Rmd",
+  "day18.Rmd",
+  "day19.Rmd",
+  "day20.Rmd",
+  "day21.Rmd",  
+  "day22.Rmd",  
+  "day23.Rmd",  
+  "day24.Rmd",  
+  "day25.Rmd",  
+  "day26.Rmd",  
+  "day27.Rmd",
+  "Activity1_final.Rmd",
+  "Activity2_final.Rmd",
+  "Activity3_final.Rmd"
+  ]
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
